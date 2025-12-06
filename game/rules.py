@@ -11,8 +11,8 @@ class ChessRules:
         x, y, name = pos
         for dx, dy in directions:
             nx, ny = x+dx , y+dy
-            enemy_name = board.get_piece(nx, ny).name
             while board.in_bounds(nx, ny):
+                enemy_name = board.get_piece(nx, ny).name if not board.is_empty() else ""
                 if board.is_enemy(nx, ny, self.color) and enemy_name in name or enemy_name  == "Q":
                     return True
                 nx += dx
@@ -20,11 +20,17 @@ class ChessRules:
         offsets = [ (2,1), (2,-1), (-2,1), (-2,-1), (1,2), (1,-2), (-1,2), (-1,-2)]
         for dx, dy in offsets:
             nx, ny = x+dx, y+dy
-            enemy_name = board.get_piece(nx, ny).name
             if board.in_bounds(nx, ny):
-                if board.is_enemy(nx, ny, self.color) and enemy_name == "N":
+                enemy_name = board.get_piece(nx, ny).name if not board.is_empty() else ""
+                if board.is_enemy(nx, ny, color) and enemy_name == "N":
                     return True
         return False
+    def promoted(self, name, y):
+        if name == 'P':
+            if y==8 or y==0:
+                return True
+        return False
+    
     # thêm các phương thức kiểm tra luật chơi ở đây nhé em
     # ví dụ như is_checkmate, is_stalemate, is_draw, can_castle, can_en_passant, can_promote ...
     # mỗi method sẽ trả về True/False hoặc các thông tin cần thiết khác

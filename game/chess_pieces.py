@@ -126,4 +126,3 @@ class Pawn(Piece):
             if board.in_bounds(nx, ny) and board.is_enemy(nx, ny, self.color):
                 moves.append((nx, ny))
         return moves
-    
